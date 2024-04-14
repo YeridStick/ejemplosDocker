@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styles.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1 class="tittel">Practica de Docker</h1>
+    <div class="container">
+        <h2 class="container__titel">Dockerfile</h2>
+        <p class="container__descrption">
+            creamos el siguiente Dockerfile:
+        </p>
+        <code class="container__code">
+            FROM nginx:alpine <br>
+            COPY index.html /usr/share/nginx/html/index.html <br>
+            COPY styles.css /usr/share/nginx/html/css/styles.css <br><br>
+            
+            CMD ["nginx", "-g", "daemon off;"]
+        </code>
+    </div>
+
+    <div class="container">
+        <h2 class="container__titel"><b>Crea</b> una Imagen en docker</h2>
+        <code class="container__code">
+            docker build -t my-first-img:1.0 .
+        </code>
+        <p class="container__descrption">Estructura: </p>
+        <code class="container__code">
+            docker build -t my-image:latest /path/to/directory
+        </code>
+    </div>
+
+    <div class="container">
+        <h2 class="container__titel"><b>Ver</b> imagenes</h2>
+        <code class="container__code">
+            docker images
+        </code>
+    </div>
+
+    <div class="container">
+        <h2 class="container__titel"><b>Acualizar</b> imagen</h2>
+        <p class="container__descrption">Para evitar la descarga de capas que no han cambiado, puede usar la opción --cache-from con el ID de la imagen anterior.</p>
+        <code class="container__code">
+            docker build --cache-from my-first-img:1.0 -t my-first-img:1.1 .
+        </code>
+    </div>
+
+    <div class="container">
+        <h2 class="container__titel"><b>Eliminar</b> una imagen</h2>
+        <ul class="container__descrption">
+            <li>puedo asignar el nombre:my-first-img o Id de la imagen: 0016721acbe0</li>
+        </ul>
+        <code class="container__code">docker rmi 0016721acbe0</code>
+    </div>
+
+    <div class="container">
+        <h2 class="container__titel"><b>Crear</b> un contenedor</h2>
+        <ul class="container__descrption">
+            <li>mapeo el puerto de mi contenedor en el puerto de mi pc "<em>8080:80</em>"</li>
+            <li>le doy un nombre a mi contenedor "<em>--name my-first-container</em>"</li>
+            <li>Asigno el id de mi imagen "<em>f7c1f15aa335</em>"</li>
+        </ul>
+        <code class="container__code">
+            docker run -p 8080:80 --name my-first-container f7c1f15aa335
+        </code>
+    </div>
+
+    <div class="container">
+        <h2 class="container__titel"><b>Guarfar Imagen</b> .tar</h2>
+        <p  class="container__descrption">Para generar un archivo ".tar" de tu imagen:</p>
+        <code class="container__code">docker save -o ejemplo_docker.tar my-first-img:1.0</code>
+        <p  class="container__descrption">Para subir tu archivo ".tar" a docker:</p>
+        <code class="container__code">docker load -i ejemplo_docker.tar</code>
+    </div>
+
+    <div class="container">
+        <h2 class="container__titel"><b>Subir Imagen</b> .tar</h2>
+        <p  class="container__descrption">Para subir tu archivo ".tar" a docker:</p>
+        <code class="container__code">docker load -i ejemplo_docker.tar</code>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="container">
+        <h2 class="container__titel">Puedo <b>ver</b> los contenedores</h2>
+        <code class="container__code">docker ps</code>
+    </div>
+
+    <div class="container">
+        <h2 class="container__titel">Puedo <b>deterner</b> un contenedor</h2>
+        <code class="container__code">docker stop 2d82b84d24d8</code>
+        <code class="container__code">docker kill 2d82b84d24d8</code>
+    </div>
+
+    <div class="container">
+        <h2 class="container__titel"><b>Eliminar</b></h2>
+        <p class="container__descrption">Contenero</p>
+        <code class="container__code">docker rm 2d82b84d24d8</code>
+        <p class="container__descrption">Imagen</p>
+        <code class="container__code">docker rmi f72d92186105</code>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="container">
+        <h2 class="container__titel">docker-compose.yml</h2>
+        <a 
+            href="https://mariosanurbina.medium.com/docker-compose-con-ejemplos-1290c0a3ae53" 
+            class="container__descrption container__descrption-link" 
+        >Ver ejemplo: Mario Sanchez Urbina</a>
+        <p  class="container__descrption">Ejemplo de la Web</p>
+        <code class="container__code">
+            version: '3.9' <br>
+
+            services: <br>
+            web: <br>
+                image: f279c9471bfd <br>
+                ports: <br>
+                - "8080:80"
+        </code>
+        <p class="container__descrption">docker compose up</p>
+
+        <code class="container__code">docker run --name mt-first-mysql 
+            -p 3307:3306 
+            -e MYSQL_DATABASE=test 
+            -e MYSQL_USER=admin 
+            -e MYSQL_ALLOW_PUBLIC_KEY_RETRIEVAL=1 
+            -e MYSQL_ROOT_PUBLIC_KEY_FILE=/path/to/public.key 
+            -v ./MySQL:/etc/mysql/conf.d -d mysql:8.3.0
+        </code>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="container">
+        <h2 class="container__titel">Postgres</h2>
+        <p class="container__descrption">Descargamos de forma directa del Docker-hub</p>
+        <a 
+            href="https://hub.docker.com/_/postgres" 
+            class="container__descrption container__descrption-link" 
+        >https://hub.docker.com/_/postgres</a>
+        <code class="container__code">docker run --name mt-first-postgres -p 5432:5432 
+            -e POSTGRES_DB=test 
+            -e POSTGRES_USER=admin 
+            -e POSTGRES_PASSWORD=secret
+            -v ./sql:/var/lib/postgresql/data
+            -d postgres:16.2
+        </code>
+    </div>
+
+    <div class="container">
+        <h2 class="container__titel">MySQL</h2>
+        <p class="container__descrption">Descargamos de forma directa del Docker-hub</p>
+        <a 
+            href="https://hub.docker.com/_/postgres" 
+            class="container__descrption container__descrption-link" 
+        >https://hub.docker.com/_/postgres</a>
+        <code class="container__code">docker run --name mt-first-mysql 
+            -p 3307:3306 
+            -e MYSQL_DATABASE=test 
+            -e MYSQL_USER=admin 
+            -e MYSQL_PASSWORD=secret 
+            -v ./MySQL:/etc/mysql/conf.d -d 
+            --env MYSQL_ROOT_PASSWORD=secret mysql:8.3.0
+        </code>
+
+        <code class="container__code">docker run --name mt-first-mysql 
+            -p 3307:3306 
+            -e MYSQL_DATABASE=test 
+            -e MYSQL_USER=admin 
+            -e MYSQL_ALLOW_PUBLIC_KEY_RETRIEVAL=1 
+            -e MYSQL_ROOT_PUBLIC_KEY_FILE=/path/to/public.key 
+            -v ./MySQL:/etc/mysql/conf.d -d mysql:8.3.0
+        </code>
+    </div>
+    
+</body>
+</html>
